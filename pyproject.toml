@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "mailcraft-by-evoq"
+version = "0.1.0"
+description = ""
+authors = ["Tigran Saatchyan TSA <mr.saatchyan@yandex.com>"]
+license = "MIT License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11"
+Django = "^4.2.4"
+Pillow = "^10.0.0"
+pytils = "^0.4.1"
+
+
+[tool.poetry.group.develop.dependencies]
+python-dotenv = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
