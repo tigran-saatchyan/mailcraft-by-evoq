@@ -56,8 +56,6 @@ MailCraft will help you achieve greater ROI from your email campaigns.
 You will need the following installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/)
-* [XYZ](https://www.example.com/)
 
 ### Installation
 
