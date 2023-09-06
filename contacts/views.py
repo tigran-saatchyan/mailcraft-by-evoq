@@ -7,6 +7,23 @@ from contacts.forms import ContactForm, ListForm
 from contacts.models import Contacts, Lists, ContactsList
 
 
+def get_list_active_contacts(contact_list):
+    contact_activity_status = {}
+    total = len(contact_list)
+    active = len(
+        [
+            contact
+            for contact in contact_list
+            if contact.contact.status.id == 1
+        ]
+    )
+    inactive = total - active
+    contact_activity_status['total'] = total
+    contact_activity_status['active'] = active
+    contact_activity_status['inactive'] = inactive
+    return contact_activity_status
+
+
 class ContactCreateView(CreateView):
     model = Contacts
     template_name = 'contacts/contact/contact_form.html'
@@ -34,7 +51,7 @@ class ContactUpdateView(UpdateView):
     model = Contacts
     form_class = ContactForm
     template_name = 'contacts/contact/contact_form.html'
-    success_url = reverse_lazy('contacts:update_contact')
+    success_url = reverse_lazy('contacts:list_contact')
 
 
 class ContactDeleteView(DeleteView):
@@ -58,6 +75,20 @@ class ListsListView(ListView):
     context_object_name = 'lists'
     success_url = reverse_lazy('contacts:list_list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        lists = []
+        for list_object in context['lists']:
+            contact = []
+            contact_list = ContactsList.objects.filter(list=list_object.pk)
+            contact_activity_status = get_list_active_contacts(contact_list)
+            contact.append(list_object)
+            contact.append(contact_activity_status)
+            lists.append(contact)
+        context['lists'] = lists
+        return context
+
 
 class ListsDetailView(DetailView):
     model = Lists
@@ -65,8 +96,25 @@ class ListsDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        contact_list = ContactsList.objects.filter(list=self.kwargs.get('pk'))
-        context['contact_list'] = contact_list
+        list_of_contacts = ContactsList.objects.filter(
+            list=self.kwargs.get('pk')
+        )
+        contact_activity_status = get_list_active_contacts(list_of_contacts)
+        current_list = self.object
+
+        context['contact_activity_status'] = contact_activity_status
+        context['current_list'] = current_list
+
+        context['lists'] = []
+        for contact in list_of_contacts:
+            contacts = []
+            contact_in_lists = ContactsList.objects.filter(
+                contact=contact.contact.pk
+            )
+            contacts.append(contact)
+            contacts.append(contact_in_lists)
+            context['lists'].append(contacts)
+
         return context
 
 
