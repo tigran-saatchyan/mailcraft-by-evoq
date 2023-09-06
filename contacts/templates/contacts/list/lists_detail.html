@@ -1,0 +1,57 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Создать рассылку{% endblock %}
+
+{% block menu_mailings_active %}active{% endblock %}
+
+{% block head_section %}
+    {% include 'contacts/list/includes/inc_lists_head_section.html' with lists=lists contact_list=contact_list %}
+{% endblock %}
+{% block content %}
+    <div class="album py-5 bg-body-tertiary">
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="card p-5" style="width: 90vw;">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Статус</th>
+                            <th>Дата добавления</th>
+                            <th>Списки</th>
+                            <th>Телефон</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ lists.name }}</td>
+                            <td>{{ lists.date_added }}</td>
+                            <td>{{ contact_list.count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                    <table class="table table-hover">
+                        <tr>
+                            <th colspan="3" align="center">Контакты</th>
+                        </tr>
+                        {% for contact in contact_list %}
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ contact.contact.email }}</td>
+                                <td>{{ contact.contact.telephone }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
