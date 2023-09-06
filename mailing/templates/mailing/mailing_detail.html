@@ -1,0 +1,59 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Создать рассылку{% endblock %}
+
+{% block menu_mailings_active %}active{% endblock %}
+
+
+{% block content %}
+    <div class="album py-5 bg-body-tertiary">
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="card p-5" style="width: 90vw;">
+                    <a href="{% url 'mailings:list_mailing' %}" class="btn btn-success" >Back</a>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>{{ mailing.id }}</th>
+                        </tr>
+                        <tr>
+                            <td>Title</td>
+                            <td>{{ mailing.title }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mailing periods</td>
+                            <td>{{ mailing.mailing_periods }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mailing time</td>
+                            <td>{{ mailing.mailing_time }}</td>
+                        </tr>
+                        <tr>
+                            <td>Message title</td>
+                            <td>{{ mailing.message_title }}</td>
+                        </tr>
+                        <tr>
+                            <td>Message content</td>
+                            <td>{{ mailing.message_content }}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>{{ mailing.status }}</td>
+                        </tr>
+                        <tr>
+                            <td>Date_created</td>
+                            <td>{{ mailing.date_created | date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Date modified</td>
+                            <td>{{ mailing.date_modified | date }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
