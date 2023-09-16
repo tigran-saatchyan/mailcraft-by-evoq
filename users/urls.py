@@ -5,7 +5,8 @@ from users.views import (
     RegisterView, verify_email, LoginView,
     UserUpdateView, PasswordResetView, PasswordChangeView,
     PasswordChangeDoneView, PasswordResetDoneView,
-    PasswordResetConfirmView, PasswordResetCompleteView, LogoutView
+    PasswordResetConfirmView, PasswordResetCompleteView, LogoutView,
+    UserListView, ban_user
 )
 
 app_name = UsersConfig.name
@@ -77,4 +78,15 @@ urlpatterns = [
         PasswordChangeDoneView.as_view(),
         name="password_change_done",
     ),
+    path(
+        "list/",
+        UserListView.as_view(),
+        name="users_list",
+    ),
+    path(
+        "ban/<int:pk>",
+        ban_user,
+        name="ban_user",
+    ),
+
 ]

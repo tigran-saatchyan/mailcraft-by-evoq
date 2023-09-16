@@ -2,29 +2,37 @@ from datetime import datetime
 from typing import Dict
 
 from django.contrib.auth.models import AbstractUser
+from django.core import validators
 from django.db import models
 
-
-def save_picture(instance, filename):
-    app_name = instance._meta.app_label
-    model_name = instance._meta.model_name
-    my_date = str(datetime.now().isoformat())
-
-    picture_name = "".join(
-        [
-            "".join(filename.split('.')[:-1]),
-            my_date,
-            ".",
-            filename.split('.')[-1]
-        ]
-    )
-    return f"{app_name}/{model_name}/{instance.pk}/{picture_name}"
-
+from service.utils import save_picture
 
 NULLABLE: Dict[str, bool] = {'blank': True, 'null': True}
 
 
 class Country(models.Model):
+    """
+    A model representing a country.
+
+    Args:
+        models.Model: The base class for defining a Django model.
+
+    Attributes:
+        name (str): The name of the country.
+        code (str): The code or abbreviation of the country.
+
+    Meta:
+        verbose_name (str): A human-readable name for the model.
+        verbose_name_plural (str): A human-readable plural name for the model.
+        ordering (tuple): The default ordering for instances of this model.
+
+    Methods:
+        __str__(): Returns a string representation of the country.
+
+    Returns:
+        None
+    """
+
     name = models.CharField(max_length=255, **NULLABLE, verbose_name='страна')
     code = models.CharField(max_length=255, **NULLABLE, verbose_name='код')
 
@@ -38,9 +46,39 @@ class Country(models.Model):
 
 
 class User(AbstractUser):
+    """
+    A custom user model extending Django's AbstractUser.
+
+    Args:
+        AbstractUser: The base class for defining a custom user model.
+
+    Attributes:
+        email (str): The unique email address of the user.
+        telephone (str): The user's telephone number.
+        country (Country): The user's country of residence.
+        avatar (ImageField): The user's profile picture.
+        date_added (datetime): The date and time when the user account was created.
+        last_modified (datetime): The date and time when the user account was last modified.
+        is_verified (bool): A flag indicating whether the user's email is verified.
+
+    Meta:
+        verbose_name (str): A human-readable name for the model.
+        verbose_name_plural (str): A human-readable plural name for the model.
+        ordering (tuple): The default ordering for instances of this model.
+
+    Methods:
+        __str__(): Returns a string representation of the user.
+
+    Returns:
+        None
+    """
 
     username = None
-    email = models.EmailField(unique=True, verbose_name='почта')
+    email = models.EmailField(
+        unique=True, verbose_name='почта', validators=[
+            validators.EmailValidator(message="Invalid Email")
+        ]
+    )
     telephone = models.CharField(
         max_length=50, verbose_name='телефон', **NULLABLE
     )

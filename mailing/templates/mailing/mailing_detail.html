@@ -14,44 +14,46 @@
                     <a href="{% url 'mailings:list_mailing' %}" class="btn btn-success" >Back</a>
                     <table class="table table-hover">
                         <tr>
-                            <th>ID</th>
+                            <th>ID рассылки</th>
                             <th>{{ mailing.id }}</th>
                         </tr>
                         <tr>
-                            <td>Title</td>
+                            <td>Название рассылки</td>
                             <td>{{ mailing.title }}</td>
                         </tr>
                         <tr>
-                            <td>Mailing periods</td>
-                            <td>{{ mailing.mailing_periods }}</td>
-                        </tr>
-                        <tr>
-                            <td>Mailing time</td>
-                            <td>{{ mailing.mailing_time }}</td>
-                        </tr>
-                        <tr>
-                            <td>Message title</td>
+                            <td>Тема сообщения</td>
                             <td>{{ mailing.message_title }}</td>
                         </tr>
                         <tr>
-                            <td>Message content</td>
+                            <td>Сообщение</td>
                             <td>{{ mailing.message_content }}</td>
                         </tr>
                         <tr>
-                            <td>Status</td>
-                            <td>{{ mailing.status }}</td>
+                            <td>Периодичность рассылки</td>
+                            <td>{{ mailing.setting.mailing_periods }}</td>
                         </tr>
                         <tr>
-                            <td>Date_created</td>
-                            <td>{{ mailing.date_created | date }}</td>
+                            <td>Статус рассылки</td>
+                            <td>{{ mailing.setting.status }}</td>
                         </tr>
                         <tr>
-                            <td>Date modified</td>
-                            <td>{{ mailing.date_modified | date }}</td>
+                            <td>Дата начала</td>
+                            <td>{{ mailing.setting.start_date | date:'d-M-Y' }}</td>
                         </tr>
-
+                        <tr>
+                            <td>Время рассылки</td>
+                            <td>{{ mailing.setting.mailing_time | date:'H:i'  }}</td>
+                        </tr>
+                        <tr>
+                            <td>День недели</td>
+                            <td>{{ mailing.setting.mailing_week_day_num }}</td>
+                        </tr>
+                        <tr>
+                            <td>Дата окончания</td>
+                            <td>{{ mailing.setting.end_date | date:'d-M-Y'  }}</td>
+                        </tr>
                     </table>
-
                 </div>
             </div>
         </div>

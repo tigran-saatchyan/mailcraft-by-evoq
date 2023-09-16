@@ -1,41 +1,64 @@
 from django.contrib.auth.forms import (
-    PasswordChangeForm as BasePasswordChangeForm
+    PasswordChangeForm as BasePasswordChangeForm,
+    PasswordResetForm as BasePasswordResetForm,
+    SetPasswordForm as BaseSetPasswordForm,
+    UserChangeForm as BaseUserChangeForm,
 )
-from django.contrib.auth.forms import (
-    PasswordResetForm as BasePasswordResetForm
-)
-from django.contrib.auth.forms import (
-    SetPasswordForm as BaseSetPasswordForm
-)
-from django.contrib.auth.forms import UserChangeForm as BaseUserChangeForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.forms import HiddenInput
 
 from frontend.forms import StyleFormMixin
 from users.models import User
 
-
-# UserCreationForm — создание или регистрация пользователя.
-# UserChangeForm — редактирование данных пользователя.
-# AuthenticationForm — авторизация пользователя.
-# PasswordChangeForm — изменение пароля пользователем.
-# PasswordResetForm — сброс пароля пользователем.
-# SetPasswordForm — установка пароля пользователем.
-
-
 class RegisterForm(StyleFormMixin, UserCreationForm):
+    """
+    A form for user registration.
+
+    Inherits from UserCreationForm and includes styling.
+
+    Args:
+        UserCreationForm: The base class for user registration.
+
+    Returns:
+        None
+    """
+
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2',)
 
 
 class LoginForm(StyleFormMixin, AuthenticationForm):
+    """
+    A form for user login.
+
+    Inherits from AuthenticationForm and includes styling.
+
+    Args:
+        AuthenticationForm: The base class for user login.
+
+    Returns:
+        None
+    """
+
     class Meta:
         model = User
         fields = ('__all__',)
 
 
 class UserChangeForm(StyleFormMixin, BaseUserChangeForm):
+    """
+    A form for user profile updates.
+
+    Inherits from UserChangeForm and includes styling.
+
+    Args:
+        BaseUserChangeForm: The base class for user profile updates.
+
+    Returns:
+        None
+    """
+
     class Meta:
         model = User
         fields = (
@@ -54,14 +77,49 @@ class UserChangeForm(StyleFormMixin, BaseUserChangeForm):
 
 
 class PasswordResetForm(StyleFormMixin, BasePasswordResetForm):
+    """
+    A form for resetting a user's password.
+
+    Inherits from PasswordResetForm and includes styling.
+
+    Args:
+        BasePasswordResetForm: The base class for password reset.
+
+    Returns:
+        None
+    """
+
     email_template_name = 'users/registration/password_reset_email.html'
 
 
 class SetPasswordForm(StyleFormMixin, BaseSetPasswordForm):
+    """
+    A form for setting a new user password.
+
+    Inherits from SetPasswordForm and includes styling.
+
+    Args:
+        BaseSetPasswordForm: The base class for setting a new password.
+
+    Returns:
+        None
+    """
+
     class Meta:
         model = User
         fields = ('__all__',)
 
 
 class PasswordChangeForm(BasePasswordChangeForm):
+    """
+    A form for changing a user's password.
+
+    Inherits from PasswordChangeForm.
+
+    Args:
+        BasePasswordChangeForm: The base class for changing a password.
+
+    Returns:
+        None
+    """
     pass

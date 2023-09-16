@@ -1,5 +1,6 @@
 {% extends 'frontend/base.html' %}
 {% load my_tags %}
+{% load static %}
 
 {% block title %}Списки доступных рассылок{% endblock %}
 
@@ -28,21 +29,21 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://placehold.co/750x400" class="d-block w-100" alt="...">
+                            <img src="{% static 'blog/1.jpg' %}" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
                                 <p>Some representative placeholder content for the first slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item active">
-                            <img src="https://placehold.co/750x400" class="d-block w-100" alt="...">
+                            <img src="{% static 'blog/2.jpg' %}" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
                                 <p>Some representative placeholder content for the second slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item active">
-                            <img src="https://placehold.co/750x400" class="d-block w-100" alt="...">
+                            <img src="{% static 'blog/3.jpg' %}" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Third slide label</h5>
                                 <p>Some representative placeholder content for the third slide.</p>
@@ -83,10 +84,13 @@
                     </h3>
                     {% for post in posts %}
                         {% include 'blog/includes/inc_full_post_card.html' with post=post %}
+                        {% if not forloop.last %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
-
-
-                    {% include 'blog/includes/inc_paginator_old_new.html' with page_obj=page_obj %}
+                    <p class="pt-4">
+                        {% include 'blog/includes/inc_paginator_old_new.html' with page_obj=page_obj %}
+                    </p>
 
                 </div>
 
