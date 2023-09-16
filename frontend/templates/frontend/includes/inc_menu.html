@@ -13,9 +13,17 @@
                     <a class="nav-link {% block menu_dashboard_active %}{% endblock %}" aria-current="page"
                             href="{% url 'frontend:index' %}">Дашборд</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% block menu_mailings_active %}{% endblock %}"
-                            href="{% url 'mailings:list_mailing' %}">Рассылки</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Рассылки</strong>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'mailings:list_mailing' %}">Рассылки</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'logs:logs_list' %}">Логи рассылок</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,8 +38,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link {% block menu_blog_active %}{% endblock %}"
+                            href="{% url 'blog:post_list' %}">Блог</a>
                 </li>
+                {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                                href="{% url 'users:users_list' %}">Пользователи</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">

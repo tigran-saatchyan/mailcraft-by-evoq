@@ -2,10 +2,10 @@
 
 {% block title %}Index{% endblock %}
 
-
 {% block head_section %}
-    {% include 'frontend/includes/inc_index_head_section.html' %}
+    {% include 'frontend/includes/inc_index_head_section.html' with total_mailings=total_mailings total_active_mailings=total_active_mailings total_inactive_mailings=total_inactive_mailings%}
 {% endblock %}
+
 {% block content %}
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
@@ -14,6 +14,17 @@
                     {% include 'mailing/includes/inc_mailing_card.html' with mail=mail %}
                 {% endfor %}
             </div>
+            <div class="col-md-8 pt-5">
+                {% for post in random_three_posts %}
+                    {% include 'blog/includes/inc_full_post_card.html' with post=post %}
+                    {% if not forloop.last %}
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+
+
+            </div>
         </div>
+
     </div>
 {% endblock %}

@@ -16,6 +16,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'users.apps.UsersConfig',
     'contacts.apps.ContactsConfig',
+    'blog.apps.BlogConfig',
+    'logs.apps.LogsConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -122,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tbilisi'
 
 USE_I18N = True
 
@@ -146,6 +150,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = 'users:login'
+
 LOGIN_REDIRECT_URL = 'frontend:index'
-LOGOUT_REDIRECT_URL = 'frontend:index'
+LOGOUT_REDIRECT_URL = 'blog:post_list'
+AUTH_USER_MODEL = 'users.User'
+
+# Django’s cache framework
+# https://docs.djangoproject.com/en/4.2/topics/cache/#redis
+
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379",
+        }
+    }

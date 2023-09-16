@@ -1,32 +1,8 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
-
-
-class Statuses(models.Model):
-    """
-    Represents various statuses.
-
-    Attributes:
-        status (str): The status description.
-
-    Meta:
-        verbose_name (str): The singular name for this model in the
-        admin interface.
-        verbose_name_plural (str): The plural name for this model in
-        the admin interface.
-        ordering (tuple): The default sorting order for instances of
-        this model.
-    """
-    status = models.CharField(max_length=20, verbose_name='статус')
-
-    def __str__(self):
-        return self.status
-
-    class Meta:
-        verbose_name = 'статус'
-        verbose_name_plural = 'статусы'
-        ordering = ('status',)
 
 
 class Lists(models.Model):
@@ -53,6 +29,12 @@ class Lists(models.Model):
     date_added = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='список',
+        **NULLABLE
     )
 
     def delete(self, *args, **kwargs):
@@ -96,16 +78,25 @@ class Contacts(models.Model):
         ordering (tuple): The default sorting order for instances of
         this model.
     """
+    CONTACT_ACTIVE = 'active'
+    CONTACT_INACTIVE = 'inactive'
+
+    CONTACTS_STATUSES = (
+        (CONTACT_ACTIVE, 'Активный'),
+        (CONTACT_INACTIVE, 'Неактивный'),
+    )
+
     telephone = models.CharField(max_length=50, verbose_name='номер телефона')
     email = models.EmailField(max_length=255, verbose_name='почта')
     date_added = models.DateTimeField(
         auto_now_add=True,
         verbose_name='дата создания'
     )
-    status = models.ForeignKey(
-        Statuses,
-        on_delete=models.DO_NOTHING,
-        verbose_name='статус'
+    status = models.CharField(
+        max_length=50,
+        choices=CONTACTS_STATUSES,
+        verbose_name='статус',
+        default=CONTACT_ACTIVE
     )
     user = models.ForeignKey(
         'users.User',
@@ -158,7 +149,7 @@ class ContactsList(models.Model):
     )
 
     def __str__(self):
-        return f'{self.contact} ({self.list})'
+        return f'{self.contact} - {self.list}'
 
     class Meta:
         verbose_name = 'список контакта'
