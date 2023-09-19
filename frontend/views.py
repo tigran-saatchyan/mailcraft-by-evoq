@@ -76,8 +76,11 @@ class IndexPageView(LoginRequiredMixin, ListView):
                 is_published=True
             ).all()
         )
-        random_three_posts = random.sample(last_month_posts, 3)
-        context['random_three_posts'] = random_three_posts
+        try:
+            random_three_posts = random.sample(last_month_posts, 3)
+            context['random_three_posts'] = random_three_posts
+        except Exception:
+            pass
         return context
 
     def get_queryset(self):

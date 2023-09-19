@@ -104,29 +104,35 @@ class PostListView(ListView):
         Returns:
             dict: The updated context data.
         """
-        context = super().get_context_data(*args, **kwargs)
-        current_date = datetime.now()
-        thirty_days_ago = current_date - timedelta(days=30)
-        random.seed(int(current_date.timestamp() * 1000))
+        try:
+            context = super().get_context_data(*args, **kwargs)
+            current_date = datetime.now()
+            thirty_days_ago = current_date - timedelta(days=30)
+            random.seed(int(current_date.timestamp() * 1000))
 
-        last_month_posts = list(
-            Posts.objects.filter(
+            last_month_posts = list(
+                Posts.objects.filter(
+                    creation_date__gte=thirty_days_ago,
+                    is_published=True
+                ).all()
+            )
+
+            featured_posts = Posts.objects.order_by('-views_count').filter(
                 creation_date__gte=thirty_days_ago,
                 is_published=True
-            ).all()
-        )
+            ).all()[:2]
+            random_three_posts = random.sample(last_month_posts, 3)
 
-        featured_posts = Posts.objects.order_by('-views_count').filter(
-            creation_date__gte=thirty_days_ago,
-            is_published=True
-        ).all()[:2]
-        random_three_posts = random.sample(last_month_posts, 3)
-        context.update(
-            {
-                'featured_posts': featured_posts,
-                'random_three_posts': random_three_posts
-            }
-        )
+            context.update(
+                {
+                    'featured_posts': featured_posts,
+                    'random_three_posts': random_three_posts
+                }
+            )
+
+        except Exception as e:
+            context = {}
+            print("Database is empty")
         return context
 
 

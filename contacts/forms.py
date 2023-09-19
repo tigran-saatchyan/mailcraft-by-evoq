@@ -20,8 +20,7 @@ class ContactForm(StyleFormMixin, forms.ModelForm):
         fields = (
             'telephone',
             'email',
-            'status',
-            'list'
+            'status'
         )
 
 
