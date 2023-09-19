@@ -107,6 +107,7 @@ class Contacts(models.Model):
         Lists,
         on_delete=models.SET_NULL,
         related_name='contact_list',
+        verbose_name='список контактов',
         **NULLABLE
     )
 

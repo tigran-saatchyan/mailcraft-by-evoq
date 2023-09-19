@@ -143,6 +143,7 @@ def verify_email(request, uidb64, token):
             user, token
     ):
         user.is_verified = True
+        user.is_active = True
         user.save()
         data['user'] = user
 

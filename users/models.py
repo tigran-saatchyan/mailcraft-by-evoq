@@ -98,7 +98,10 @@ class User(AbstractUser):
         verbose_name='последнее изменение',
         auto_now=True
     )
-
+    is_active: bool = models.BooleanField(
+        verbose_name='статус активности',
+        default=False
+    )
     is_verified: bool = models.BooleanField(
         verbose_name='статус верификации',
         default=False
