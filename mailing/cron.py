@@ -21,11 +21,11 @@ def run_mailing(mailing_pk=None):
             print("Usage: python your_script.py <newsletter_pk>")
             sys.exit(1)
         mailing_pk = sys.argv[1]
-
     try:
-        mailing = Mailing.objects.get(pk=mailing_pk, setting__status='running')
+        mailing = Mailing.objects.get(pk=mailing_pk)
     except Mailing.DoesNotExist:
-        pass
+        print('Active Mailing DoesNotExist')
+        exit()
     else:
         contacts_list = mailing.contact_list.contacts.all()
         contacts = [contact.email for contact in contacts_list]
